@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Web Component: &lt;msc-portable-video /&gt; - web components based portable video effect</title>
+<meta name="description" content="Video - the most popular content in web page. Visitors always attracted with vivid contents. That's why editor like to place video contents in web page. We could see these video modules fixed in web page corner easily, such as YouTube. It's a very common effect nowadays. But what if visitors could place video module where they want. Or adjust video size for more smooth browsing they like. That's the main purpose why I design <msc-portable-video /> this web component. With a few setting and everything will be all set." />
+<script type="module" src="mjs/wc-msc-portable-video.js"></script>
+<style>
+/*** The new CSS Reset - version 1.4.2 (last updated 30.11.2021) ***/
+/* All rights reserved from https://elad2412.github.io/the-new-css-reset/ */
+*:where(:not(iframe,canvas,img,svg,video):not(svg *,symbol *)){all:unset;display:revert;}
+*,*::before,*::after{box-sizing:border-box;}
+ol,ul,menu{list-style:none;}
+img{max-width:100%;}
+table{border-collapse:collapse;}
+textarea{white-space:revert;}
+:where([contenteditable]){-moz-user-modify:read-write;-webkit-user-modify:read-write;overflow-wrap:break-word;-webkit-line-break:after-white-space;}
+
+/* page */
+html,body{font-family:system-ui,sans-serif;text-size-adjust:100%;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;font-size:16px;}
+#hd,#ft{display:none;}
+
+/* msc-portable-video */
+msc-portable-video:not(:defined){visibility:hidden;}
+</style>
+</head>
+
+<body>
+  <msc-portable-video>
+    <script type="application/json">
+      {
+        "safearea": 20,
+        "sensor": 26,
+        "cooltime": 0,
+        "embed": "https://www.youtube.com/embed/Ff7k1zxBe1I?autoplay=1&playsinline=1",
+        "allow": "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
+        "calltoaction": {
+          "link": "https://www.youtube.com/watch?v=Ff7k1zxBe1I",
+          "content": "VISIT"
+        }
+      }
+    </script>
+  </msc-portable-video>
+</body>
+
+</html>
