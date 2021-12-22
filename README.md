@@ -1,0 +1,2 @@
+# msc-portable-video
+Video - the most popular content in web page. Visitors always attracted with vivid contents. That's why editor like to place video contents in web page. We could see these video modules fixed in web page corner easily, such as YouTube. It's a very common effect nowadays. But what if visitors could place video module where they want. Or adjust video size for more smooth browsing they like. That's the main purpose why I design &lt;msc-portable-video /> this web component. With a few setting and everything will be all set.
