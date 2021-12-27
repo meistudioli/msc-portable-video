@@ -342,11 +342,8 @@ export class MscPortableVideo extends HTMLElement {
       embed.setAttribute('allow', this.#config.allow);
     }
 
-    Object.keys(defaults).forEach(
-      (key) => {
-        this._upgradeProperty(key);
-      }
-    , this);
+    // upgradeProperty
+    Object.keys(defaults).forEach((key) => this._upgradeProperty(key));
 
     // evts
     this.#data.controller = new AbortController();
