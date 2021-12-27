@@ -286,7 +286,7 @@ export class MscPortableVideo extends HTMLElement {
 
     // data
     this.#data = {
-      controller: new AbortController(),
+      controller: '',
       ddController: '',      
       dX: 0,
       dY: 0,
@@ -324,51 +324,17 @@ export class MscPortableVideo extends HTMLElement {
 
   async connectedCallback() {
     const { sensors, btnClose, btnCTA, embed } = this.#nodes;
-    const signal = this.#data.controller.signal;
+    const { config, error } = await _wcl.getWCConfig(this);
 
-    const remoteconfig = this.getAttribute('remoteconfig');
-    const script = this.querySelector('script');
-
-    if (remoteconfig) {
-      // fetch remote config once [remoteconfig] exist
-      try {
-        const configUrl = new URL(remoteconfig);
-        const resConfig = await fetch(configUrl.toString(), {
-          headers: {
-            'content-type': 'application/json'
-          },
-          method: 'GET',
-          mode: 'cors'
-        })
-        .then((response) => response.json())
-        .catch(
-          (err) => {
-            console.warn(`${_wcl.classToTagName(this.constructor.name)}: ${err.message}`);
-            return {};
-          }
-        );
-
-        this.#config = {
-          ...this.#config,
-          ...resConfig
-        };
-      } catch(err) {
-        console.warn(`${_wcl.classToTagName(this.constructor.name)}: ${err.message}`);
-        this.remove();
-        return;
-      }
-    } else if (script) {
-      // apply inner script's config
-      try {
-        this.#config = {
-          ...this.#config,
-          ...JSON.parse(script.textContent.replace(/\n/g, '').trim())
-        };
-      } catch(err) {
-        console.warn(`${_wcl.classToTagName(this.constructor.name)}: ${err.message}`);
-        this.remove();
-        return;
-      }
+    if (error) {
+      console.warn(`${_wcl.classToTagName(this.constructor.name)}: ${error}`);
+      this.remove();
+      return;
+    } else {
+      this.#config = {
+        ...this.#config,
+        ...config
+      };
     }
 
     // allow
@@ -383,6 +349,8 @@ export class MscPortableVideo extends HTMLElement {
     , this);
 
     // evts
+    this.#data.controller = new AbortController();
+    const signal = this.#data.controller.signal;
     sensors.addEventListener(evtDown, this._onDown, { signal });
     btnClose.addEventListener('click', this._onClose, { signal });
     btnCTA.addEventListener('click', this._onCTAClick, { signal });
@@ -392,8 +360,9 @@ export class MscPortableVideo extends HTMLElement {
   }
 
   disconnectedCallback() {
-    // evts
-    this.#data.controller.abort();
+    if (this.#data?.controller) {
+      this.#data.controller.abort();
+    }
   }
 
   _format(attrName, oldValue, newValue) {
@@ -494,9 +463,9 @@ export class MscPortableVideo extends HTMLElement {
 
   set cooltime(value) {
     if (value) {
-      return this.setAttribute('cooltime', value);
+      this.setAttribute('cooltime', value);
     } else {
-      return this.removeAttribute('cooltime');
+      this.removeAttribute('cooltime');
     }
   }
 
@@ -506,9 +475,9 @@ export class MscPortableVideo extends HTMLElement {
 
   set embed(value) {
     if (value) {
-      return this.setAttribute('embed', value);
+      this.setAttribute('embed', value);
     } else {
-      return this.removeAttribute('embed');
+      this.removeAttribute('embed');
     }
   }
 
@@ -518,9 +487,9 @@ export class MscPortableVideo extends HTMLElement {
 
   set safearea(value) {
     if (value) {
-      return this.setAttribute('safearea', value);
+      this.setAttribute('safearea', value);
     } else {
-      return this.removeAttribute('safearea');
+      this.removeAttribute('safearea');
     }
   }
 
@@ -530,9 +499,9 @@ export class MscPortableVideo extends HTMLElement {
 
   set sensor(value) {
     if (value) {
-      return this.setAttribute('sensor', value);
+      this.setAttribute('sensor', value);
     } else {
-      return this.removeAttribute('sensor');
+      this.removeAttribute('sensor');
     }
   }
 
@@ -545,9 +514,9 @@ export class MscPortableVideo extends HTMLElement {
       const newValue = {
         ...(typeof value === 'string' ? JSON.parse(value) : value)
       };
-      return this.setAttribute('calltoaction', JSON.stringify(newValue));
+      this.setAttribute('calltoaction', JSON.stringify(newValue));
     } else {
-      return this.removeAttribute('calltoaction');
+      this.removeAttribute('calltoaction');
     }
   }
 

@@ -1,8 +1,10 @@
 # msc-portable-video
 
-[![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/msc-portable-video)
+[![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/msc-portable-video) [![DeepScan grade](https://deepscan.io/api/teams/16372/projects/19645/branches/513164/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=16372&pid=19645&bid=513164)
 
 Video - the most popular content in web page. Visitors always attracted with vivid contents. That's why editor like to place video contents in web page. We could see these video modules fixed in web page corner easily, such as YouTube. It's a very common effect nowadays. But what if visitors could place video module where they want. Or adjust video size for more smooth browsing they like. That's the main purpose why I design &lt;msc-portable-video /> this web component. With a few setting and everything will be all set.
+
+![<msc-portable-video />](https://blog.lalacube.com/mei/img/preview/msc-portable-video.png)
 
 ## Basic Usage
 
@@ -112,7 +114,7 @@ msc-portable-video {
 
 &lt;msc-portable-video /&gt; supports some attributes to let it become more convenience & useful.
 
-- embed
+- **embed**
 
 Set embed for different embed url.
 
@@ -123,7 +125,7 @@ Set embed for different embed url.
 ></msc-portable-video>
 ```
 
-- safearea
+- **safearea**
 
 Set safearea size (px) for viewport gap. Value should higher or equal `0`. Default is `20`.
 
@@ -134,7 +136,7 @@ Set safearea size (px) for viewport gap. Value should higher or equal `0`. Defau
 ></msc-portable-video>
 ```
 
-- sensor
+- **sensor**
 
 Set sensor size (px) for resize action area. Value should higher or equal `1`. Default is `26`.
 
@@ -145,7 +147,7 @@ Set sensor size (px) for resize action area. Value should higher or equal `1`. D
 ></msc-portable-video>
 ```
 
-- cooltime
+- **cooltime**
 
 Set cooltime (second) for &lt;msc-portable-video /&gt; display or not. Once setted and user tap "close" button, &lt;msc-portable-video /&gt; won't render until exceed cooltime's value. Value should higher or equal `0`. Default is `0`.
 
@@ -156,7 +158,7 @@ Set cooltime (second) for &lt;msc-portable-video /&gt; display or not. Once sett
 ></msc-portable-video>
 ```
 
-- calltoaction
+- **calltoaction**
 
 Set "call to action" data. This should be JSON string and must contains "`link`"、"`content`" for rendering. This attribute is optional.
 ```html
@@ -185,7 +187,7 @@ Set "call to action" data. This should be JSON string and must contains "`link`"
 | close | N/A | Turn off &lt;msc-portable-video /&gt; |
 
 
-## Event
+## Events
 
 | Event Signature | Description |
 | ----------- | ----------- |

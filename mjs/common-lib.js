@@ -10,6 +10,57 @@ Object.defineProperties(_wcl, {
       )
     }
   },
+  getWCConfig: {
+    configurable: true,
+    enumerable: true,
+    value: async function(host) {
+      // gather web component's config from [remoteconfig] or inner script[type=application/json]
+      let error, config;
+
+      const remoteconfig = host.getAttribute('remoteconfig');
+      const script = host.querySelector('script');
+
+      if (remoteconfig) {
+        // fetch remote config once [remoteconfig] exist
+        try {
+          const configUrl = new URL(remoteconfig);
+          config = await fetch(configUrl.toString(), {
+            headers: {
+              'content-type': 'application/json'
+            },
+            method: 'GET',
+            mode: 'cors'
+          })
+          .then(
+            (response) => {
+              if (!response.ok) {
+                throw new Error('Network response was not OK');
+              }
+
+              return response.json();
+            }
+          )
+          .catch(
+            (err) => {
+              error = err.message;
+              return {};
+            }
+          );
+        } catch(err) {
+          error = err.message;
+        }
+      } else if (script) {
+        // apply inner script's config
+        try {
+          config = JSON.parse(script.textContent.replace(/\n/g, '').trim())
+        } catch(err) {
+          error = err.message;
+        }
+      }
+
+      return { config, error };
+    }
+  },
   camelCase: {
     configurable: true,
     enumerable: true,
@@ -110,7 +161,7 @@ Object.defineProperties(_wcl, {
     configurable: true,
     enumerable: true,
     value: function(apiName, element) {
-      let node, flag, prefix;
+      let node, flag;
 
       navigator.supports = navigator.supports || {};
       navigator.supports.api = navigator.supports.api || {};
@@ -357,8 +408,8 @@ Object.defineProperties(_wcl, {
       /*
        * y could be y-coord or DOM element
        */
-      const { width, height } = this.getPageSize();
-      const { width:winWidth, height:winHeight } = this.getViewportSize();
+      const { height } = this.getPageSize();
+      const { height:winHeight } = this.getViewportSize();
 
       if (typeof y.nodeType !== 'undefined' && y.nodeType === 1 && typeof y.getBoundingClientRect === 'function') {
         y = this.getPosition(y).y;
@@ -468,14 +519,8 @@ Object.defineProperties(_wcl, {
       navigator.supports = navigator.supports || {};
       if (typeof navigator.supports.PiP === 'undefined') {
         const node = document.createElement('video');
-        const isMobile = this.isMobile();
 
         navigator.supports.PiP = this.isAPISupport('requestPictureInPicture', node) || (node.webkitSupportsPresentationMode && typeof node.webkitSetPresentationMode === 'function');
-        // if (this.isAPISupport('requestPictureInPicture', node)) {
-        //  navigator.supports.PiP = true;
-        // } else if ((node.webkitSupportsPresentationMode && typeof node.webkitSetPresentationMode === 'function') && (isMobile[0] === 'iPad' || isMobile === false)) {
-        //  navigator.supports.PiP = true;
-        // }
       }
       return navigator.supports.PiP;
     }
