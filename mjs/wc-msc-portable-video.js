@@ -305,7 +305,7 @@ export class MscPortableVideo extends HTMLElement {
       sensors: this.shadowRoot.querySelector('.sensors'),
       btnClose: this.shadowRoot.querySelector('.btn__close'),
       btnCTA: this.shadowRoot.querySelector('.btn__cta')
-    }
+    };
 
     // config
     this.#config = {
@@ -706,7 +706,7 @@ export class MscPortableVideo extends HTMLElement {
           sY = vH - height - this.safearea;
         }
 
-        info = { x:sX, y:sY, width, height }
+        info = { x:sX, y:sY, width, height };
         this._fireEvent(custumEvents.drag, info);
         break;
       }
@@ -862,7 +862,7 @@ export class MscPortableVideo extends HTMLElement {
     this._setInitialData({ closetime: Math.floor(new Date().getTime() / 1000) }); // unit: seconds
   }
 
-  _onResize(evt) {
+  _onResize() {
     this._correct();
   }
 
