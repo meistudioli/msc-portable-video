@@ -345,6 +345,13 @@ export class MscPortableVideo extends HTMLElement {
     // upgradeProperty
     Object.keys(defaults).forEach((key) => this._upgradeProperty(key));
 
+    // remove when embed empty
+    if (!this.#config.embed) {
+      console.warn(`${_wcl.classToTagName(this.constructor.name)}: embed can't be empty.`);
+      this.remove();
+      return;
+    }
+
     // evts
     this.#data.controller = new AbortController();
     const signal = this.#data.controller.signal;
